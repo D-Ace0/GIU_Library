@@ -2,8 +2,8 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 
 export enum UserRole {
-    STUDENT = 'student',
-    ADMIN = 'admin'
+    USER = 'user',
+    ADMIN = 'admin',
   }
 
 @Schema()
@@ -20,7 +20,7 @@ export class User {
   @Prop({ default: Date.now })
   createdAt: Date;
 
-  @Prop({enum: UserRole, default: UserRole.STUDENT})
+  @Prop({enum: UserRole, default: UserRole.USER})
   role: string;
 }
 

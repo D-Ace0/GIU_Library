@@ -18,6 +18,6 @@ export class SignUpDto {
     password: string;
 
     @IsString()
-    @IsIn(['student', 'admin'])
-    role?: string='student';
+    @IsIn(['user', 'admin'])
+    role?: string='user';
 }
