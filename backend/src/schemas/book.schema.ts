@@ -14,13 +14,14 @@ export class Book {
   @Prop() publisher: string;
   @Prop() language: string;
   @Prop() pageCount: number;
-  @Prop() image_url: string;
+  @Prop({required:false}) image_url: string;
+  @Prop() category: string;
   @Prop() stock: number;
   @Prop() location: string;
-  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Borrowed' }) borrowers: any[];
-  @Prop() isOutOfStock: boolean;
-  @Prop() nearestReturnDate?: Date;
-  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Review' }) recentReviews: any[];
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Borrowed',required:false }) borrowers: any[];
+  @Prop({required:false}) isOutOfStock: boolean;
+  @Prop({required:false}) nearestReturnDate?: Date;
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Review',required:false }) recentReviews: any[];
 
 }
 
