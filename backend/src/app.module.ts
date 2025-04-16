@@ -5,6 +5,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { BookModule } from './book/book.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   providers: [{
@@ -15,6 +16,7 @@ import { BookModule } from './book/book.module';
     MongooseModule.forRoot('mongodb+srv://atamerfawzy:GIUPM@cluster0.mnyhh2g.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'),
     UsersModule,
     BookModule,
+    NotificationModule,
   ],
 })
 export class AppModule {}
