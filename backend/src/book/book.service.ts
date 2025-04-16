@@ -1,4 +1,4 @@
-import {BadRequestException, ConflictException, Injectable} from '@nestjs/common';
+import {BadRequestException, ConflictException, Injectable, NotFoundException} from '@nestjs/common';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 import {Book, BookDocument} from "../schemas/book.schema";
@@ -25,19 +25,40 @@ export class BookService {
     return newBook.save();
   }
 
-  findAll() {
-    return `This action returns all book`;
+  async findAll() {
+    return await this.bookModel.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} book`;
+  async findOne(bookTitle: string) {
+
+    return await this.bookModel.findOne({bookTitle}).exec();
   }
 
-  update(id: number, updateBookDto: UpdateBookDto) {
-    return `This action updates a #${id} book`;
+  async update(bookTitle: string, updateBookDto: UpdateBookDto) {
+    const updatedBook=await this.bookModel.findOneAndUpdate(
+        {bookTitle},{$set:updateBookDto},{new: true});
+
+    if(!updateBookDto){
+      throw new NotFoundException(`"${bookTitle}" not found`);
+
+    }
+    return updatedBook;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} book`;
+  async remove(bookTitle: string) {
+    const result=await this.bookModel.deleteOne({bookTitle})
+    if(result.deletedCount===0){
+      throw new NotFoundException(`"${bookTitle}" not found`);
+    }
+
+    return{message:`"${bookTitle}" has been deleted successfully`};
   }
+
+  async Search(title: string) {
+    return await this.bookModel.find({bookTitle:{$regex:title,$options:'i'}});
+  }
+
+
+
+
 }
