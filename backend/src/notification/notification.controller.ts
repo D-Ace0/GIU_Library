@@ -12,10 +12,7 @@ export class NotificationController {
     return this.notificationService.create(createNotificationDto);
   }
 
-  @Get()
-  findAll() {
-    return this.notificationService.findAll();
-  }
+
 
   @Get(':id')
   findOne(@Param('id') id: string) {
