@@ -14,10 +14,10 @@ export enum STATUS{
 export class Borrowed extends Document {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }) bookId: any;
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' }) userId: any;
-    @Prop() borrowedAt: Date;
-    @Prop() returnDate: Date;
+    @Prop({type:Date,default:Date.now}) borrowedAt: Date;
+    @Prop({type:Date}) returnDate: Date;
     @Prop() returned: boolean;
-    @Prop( {required: false} ) returnedAt?: Date;
+    @Prop( {type:Date,required: false} ) returnedAt?: Date;
     @Prop({enum:STATUS}) status: STATUS;
 
 }
