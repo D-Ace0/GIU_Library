@@ -59,6 +59,23 @@ export class BookService {
   }
 
 
+  async Author(author: string) {
+    return await this.bookModel.find({author:author});
+  }
 
+ async Language(language: string) {
+    return await this.bookModel.find({language:language});
+  }
 
+  async Location(location: string) {
+    return await this.bookModel.find({location:location});
+  }
+
+  async Category(category: string) {
+    return await this.bookModel.find({category:category});
+  }
+
+  async Publisher (publisher: string) {
+    return await this.bookModel.find({publisher:publisher});
+  }
 }

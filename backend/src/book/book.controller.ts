@@ -50,5 +50,33 @@ export class BookController {
       return this.bookService.Search(title);
   }
 
+  @Get('author/:author')
+  //@Roles(['admin', 'user'])
+    async Author(@Param('author') author: string) {
+      return this.bookService.Author(author);
+  }
+
+    @Get('language/:language')
+    //@Roles(['admin', 'user'])
+    async Language(@Param('language') language: string) {
+        return this.bookService.Language(language);
+    }
+
+    @Get('location/:location')
+    //@Roles(['admin', 'user'])
+    async Location(@Param('location') location: string) {
+      return this.bookService.Location(location);
+    }
+    @Get('category/:category')
+    //@Roles(['admin', 'user'])
+    async Category(@Param('category') category: string) {
+      return this.bookService.Category(category);
+    }
+    @Get('publisher/:publisher')
+    async Publisher(@Param('publisher') publisher: string) {
+      //@Roles(['admin', 'user'])
+      return this.bookService.Publisher(publisher);
+    }
+
 
 }
