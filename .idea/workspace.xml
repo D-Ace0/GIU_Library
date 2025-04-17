@@ -6,7 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9a90cd53-2466-4914-9019-fe23fcff7365" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/notification/notification.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/notification/notification.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/schemas/Borrowed.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/schemas/Borrowed.schema.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +76,8 @@
       <workItem from="1744704269623" duration="13096000" />
       <workItem from="1744721819092" duration="716000" />
       <workItem from="1744800669618" duration="11022000" />
-      <workItem from="1744826436666" duration="387000" />
+      <workItem from="1744826436666" duration="1781000" />
+      <workItem from="1744912011293" duration="1093000" />
     </task>
     <servers />
   </component>

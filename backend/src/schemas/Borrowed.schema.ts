@@ -14,6 +14,7 @@ export enum STATUS{
 export class Borrowed extends Document {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Book' }) bookId: any;
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' }) userId: any;
+    @Prop()bookTitle: string;
     @Prop({type:Date,default:Date.now}) borrowedAt: Date;
     @Prop({type:Date}) returnDate: Date;
     @Prop() returned: boolean;
