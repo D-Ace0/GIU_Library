@@ -19,7 +19,7 @@ export class Borrowed extends Document {
     @Prop({type:Date}) returnDate: Date;
     @Prop() returned: boolean;
     @Prop( {type:Date,required: false} ) returnedAt?: Date;
-    @Prop() bookTitle: string;
+
     
 
 }
