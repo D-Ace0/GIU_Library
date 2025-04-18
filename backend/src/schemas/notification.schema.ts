@@ -11,7 +11,7 @@ export enum NotificationType {
 @Schema()
 export class Notification extends Document {
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' }) to: any;
-    @Prop() from: string;
+    @Prop({required:false}) from: string;
     @Prop() body: string;
     @Prop() bookTitle: string;
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Borrowed' }) borrowId?: any;
@@ -20,3 +20,4 @@ export class Notification extends Document {
 }
 
 export const NotificationSchema = SchemaFactory.createForClass(Notification);
+
