@@ -1,6 +1,8 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose from "mongoose";
-
+import {Review} from "./review.schema";
+import {Borrowed} from "./Borrowed.schema";
+import{Book} from "./book.schema";
 
 export enum UserRole {
     USER = 'user',
@@ -17,6 +19,9 @@ export class User {
 
   @Prop({ required: true })
   password: string;
+
+  @Prop({ required: false })
+  major?: string;
 
   @Prop({ default: Date.now })
   createdAt: Date;
