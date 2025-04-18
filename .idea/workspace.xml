@@ -6,10 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="9a90cd53-2466-4914-9019-fe23fcff7365" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/auth/auth.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/auth/auth.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/auth/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/auth/dto/signin.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/auth/dto/signin.dto.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/schemas/notification.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/schemas/notification.schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/auth/auth.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/auth/auth.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/book/book.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/book/book.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/guards/authentication.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/guards/authentication.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/users/users.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/users/users.module.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,6 +82,7 @@
       <workItem from="1744826436666" duration="1781000" />
       <workItem from="1744912011293" duration="1093000" />
       <workItem from="1744967029590" duration="1852000" />
+      <workItem from="1744974350745" duration="2876000" />
     </task>
     <servers />
   </component>

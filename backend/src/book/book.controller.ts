@@ -8,7 +8,7 @@ import {Roles} from "../decorators/roles.decorator";
 
 
 @Controller('book')
-@UseGuards(AuthorizationGuard,AuthenticationGuard)
+@UseGuards(AuthenticationGuard,AuthorizationGuard)
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 

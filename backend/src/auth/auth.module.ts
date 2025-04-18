@@ -16,5 +16,6 @@ import { User, UserSchema } from 'src/schemas/user.schema';
       { name: User.name, schema: UserSchema },
     ])
   ],
+  exports : [AuthService, JwtModule],
 })
 export class AuthModule {}
