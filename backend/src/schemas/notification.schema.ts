@@ -15,8 +15,7 @@ export class Notification extends Document {
     @Prop() body: string;
     @Prop() bookTitle: string;
     @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Borrowed' }) borrowId?: any;
-    @Prop() type: 'dueReminder' | 'warning' | 'info';
-    @Prop() createdAt: Date;
+    @Prop({type:Date}) createdAt: Date;
     @Prop() read: boolean;
 }
 
