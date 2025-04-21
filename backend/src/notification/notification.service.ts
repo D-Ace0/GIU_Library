@@ -42,44 +42,54 @@ export class NotificationService {
   
     return createdNotification.save();
   }
-  
-  async systemNotification(){
-    // Step 1: Get the "System" user
-  const systemUser = await this.userModel.findOne({ username: 'System' });
-  if (!systemUser) {
-    throw new Error('System user not found');
+
+  async systemNotification() {
+    const now = new Date();
+    const todayStart = new Date(now.setHours(0, 0, 0, 0));
+    const todayEnd = new Date(now.setHours(23, 59, 59, 999));
+
+    const dueBorrowedEntries = await this.borrowedModel.find({
+      returnDate: { $gte: todayStart, $lte: todayEnd },
+      returned: false,
+    });
+
+    const notifications = await Promise.all(
+        dueBorrowedEntries.map(async (entry) => {
+          const exists = await this.notificationExists(entry.userId, entry.bookTitle);
+          if (!exists) {
+            const notification = new this.notificationModel({
+              to: entry.userId,
+              from: "System",
+              body: `Please return "${entry.bookTitle}" today`,
+              bookTitle: entry.bookTitle,
+              createdAt: new Date(),
+              read: false,
+            });
+            return notification.save();
+          }
+          return null; // no new notification
+        })
+    );
+
+    return notifications.filter((n) => n !== null);
   }
 
-  const systemUserId = systemUser._id;
+  private async notificationExists(userId: string, bookTitle: string): Promise<boolean> {
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
+    const todayEnd = new Date();
+    todayEnd.setHours(23, 59, 59, 999);
 
-  // Step 2: Get today's date range
-  const now = new Date();
-  const todayStart = new Date(now.setHours(0, 0, 0, 0));
-  const todayEnd = new Date(now.setHours(23, 59, 59, 999));
+    const existing = await this.notificationModel.findOne({
+      to: userId,
+      bookTitle,
+      from:"System",
+      createdAt: { $gte: todayStart, $lte: todayEnd },
+    });
 
-  // Step 3: Find borrowed entries due today and not returned
-  const dueBorrowedEntries = await this.borrowedModel.find({
-    returnDate: { $gte: todayStart, $lte: todayEnd },
-    returned: false,
-  });
-
-  // Step 4: Create notifications for each due entry
-  const notifications = await Promise.all(
-    dueBorrowedEntries.map((entry) => {
-      const notification = new this.notificationModel({
-        to: entry.userId,
-        from: systemUserId,
-        body: `Please return "${entry.bookTitle}" today`,
-        bookTitle: entry.bookTitle,
-        createdAt: new Date(),
-        read: false,
-      });
-      return notification.save();
-    })
-  );
-
-  return notifications;
+    return !!existing;
   }
+
 
 
   async findAll(userId: string) {

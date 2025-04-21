@@ -6,9 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="9a90cd53-2466-4914-9019-fe23fcff7365" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/book/book.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/book/book.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/notification/dto/create-notification.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/notification/dto/create-notification.dto.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/notification/notification.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/notification/notification.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/schemas/Borrowed.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/schemas/Borrowed.schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/notification/notification.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/notification/notification.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/notification/notification.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/notification/notification.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,8 +107,10 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/backend/src/notification/notification.service.ts</url>
-          <option name="timeStamp" value="1" />
+          <url>file://$PROJECT_DIR$/backend/src/notification/notification.controller.ts</url>
+          <line>14</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="4" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
