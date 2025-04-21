@@ -1,0 +1,20 @@
+{
+    
+   "compilerOptions": {
+    // ... other options ...
+    "jsx": "react-jsx",           // so TS knows how to parse JSX
+    "moduleResolution": "node",   // so you don't need to specify “.tsx” in every import
+    "allowJs": false,
+    "esModuleInterop": true,
+    // (keep module: "esnext" or "commonjs" as you prefer)
+  },
+    
+      "extends": "./tsconfig.json",
+      "include": [
+        "vite.config.ts",      // ← this file, in the same folder
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ]
+    
+    
+  }
