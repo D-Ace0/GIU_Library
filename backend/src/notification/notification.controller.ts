@@ -13,7 +13,7 @@ export class NotificationController {
   }
 
   @Post("System")
-async  systemNotification() {
+async systemNotification() {
     return this.notificationService.systemNotification();
   }
 
