@@ -2,6 +2,8 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { User } from "./user.schema";
 import mongoose, {Document, Mongoose} from "mongoose";
 import {Borrowed} from "./Borrowed.schema";
+import {Review} from "./review.schema";
+
 
 
 export type BookDocument = Book & Document
