@@ -80,4 +80,21 @@ export class BookController {
     }
 
 
+    @Patch(':userId/save/:bookId')
+    @Roles(['user'])
+    async saveBook(
+        @Param('userId') userId: string,
+        @Param('bookId') bookId: string
+    ) {
+        return this.bookService.saveBook(userId, bookId);
+    }
+
+    @Patch(':userId/unsave/:bookId')
+    @Roles(['user'])
+    async unsaveBook(
+        @Param('userId') userId: string,
+        @Param('bookId') bookId: string
+    ) {
+        return this.bookService.unsaveBook(userId, bookId);
+    }
 }
