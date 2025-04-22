@@ -11,8 +11,8 @@ export class AuthController {
 
 
   @Post('signup')
-  async signup(@Body() signUpData: SignUpDto) {
-    const result = await this.authService.signup(signUpData);
+  async signup(@Body() signUpData: SignUpDto, @Res() response: Response) {
+    const result = await this.authService.signup(signUpData, response);
     return result;
   }
 
@@ -24,8 +24,8 @@ export class AuthController {
 
   @Post('signout')
   @UseGuards(AuthenticationGuard)
-  async signout() {
-    const result = await this.authService.signout();
+  async signout(@Res() response: Response) {
+    const result = await this.authService.signout(response);
     return result;
   }
 
