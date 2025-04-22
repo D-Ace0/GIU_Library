@@ -1,9 +1,9 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { NotificationService } from './notification.service';
 import { CreateNotificationDto } from './dto/create-notification.dto';
-import { UpdateNotificationDto } from './dto/update-notification.dto';
 
-@Controller('notification')
+
+@Controller('notifications')
 export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}
 
@@ -12,20 +12,28 @@ export class NotificationController {
     return this.notificationService.create(createNotificationDto);
   }
 
-
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.notificationService.findOne(+id);
+  @Post("System")
+async  systemNotification() {
+    return this.notificationService.systemNotification();
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateNotificationDto: UpdateNotificationDto) {
-    return this.notificationService.update(+id, updateNotificationDto);
+  @Get(":userId")
+  findAll(@Param('userId') userId: string) {
+    return this.notificationService.findAll(userId);
   }
+
+  
+
+  
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.notificationService.remove(+id);
+    return this.notificationService.remove(id);
+  }
+
+  @Patch(':id/mark-as-read')
+  markAsRead(@Param('id') id: string) {
+    return this.notificationService.markAsRead(id);
   }
 }
+

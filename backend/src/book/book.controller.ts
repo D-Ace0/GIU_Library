@@ -8,13 +8,13 @@ import {Roles} from "../decorators/roles.decorator";
 
 
 @Controller('book')
-//@UseGuards(AuthorizationGuard,AuthenticationGuard)
+@UseGuards(AuthenticationGuard,AuthorizationGuard)
 export class BookController {
   constructor(private readonly bookService: BookService) {}
 
   //add a book
   @Post()
-  //@Roles(['admin'])
+  @Roles(['admin'])
  async create(@Body() createBookDto: CreateBookDto) {
     return this.bookService.create(createBookDto);
   }

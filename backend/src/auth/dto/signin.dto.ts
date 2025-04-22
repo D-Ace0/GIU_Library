@@ -3,8 +3,9 @@ import { IsEmail, IsString, MinLength, IsIn, MaxLength, IsNotEmpty } from 'class
 
 export class SignInDto {
     @IsString()
+    @IsEmail()
     @IsNotEmpty()
-    username: string;
+    email: string;
 
     @IsString()
     @IsNotEmpty()
