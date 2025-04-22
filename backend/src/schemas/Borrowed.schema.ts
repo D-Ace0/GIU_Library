@@ -20,6 +20,8 @@ export class Borrowed extends Document {
     @Prop() returned: boolean;
     @Prop( {type:Date,required: false} ) returnedAt?: Date;
 
+    
+
 }
 
 export const BorrowedSchema = SchemaFactory.createForClass(Borrowed);

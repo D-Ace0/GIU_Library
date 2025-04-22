@@ -78,37 +78,4 @@ export class BookService {
   async Publisher (publisher: string) {
     return await this.bookModel.find({publisher:publisher});
   }
-  async saveBook(userId: string, bookId: string) {
-    const user = await this.userModel.findById(userId);
-    if (!user) throw new Error('User not found');
-
-    if (user.savedBooks?.includes(bookId)) {
-      return { message: 'Book already saved' };
-    }
-
-    await this.userModel.findByIdAndUpdate(
-        userId,
-        { $push: { savedBooks: bookId } },
-        { new: true }
-    );
-
-    return { message: 'Book saved successfully' };
-  }
-
-  async unsaveBook(userId: string, bookId: string) {
-    const user = await this.userModel.findById(userId);
-    if (!user) throw new Error('User not found');
-
-    if (!user.savedBooks?.includes(bookId)) {
-      return { message: 'Book was not saved' };
-    }
-
-    await this.userModel.findByIdAndUpdate(
-        userId,
-        { $pull: { savedBooks: bookId } },
-        { new: true }
-    );
-
-    return { message: 'Book removed from saved list' };
-  }
 }

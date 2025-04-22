@@ -7,7 +7,6 @@ import { User, UserSchema } from "../schemas/user.schema";
 import { Book, BookSchema } from "../schemas/book.schema";
 import { JwtModule } from "@nestjs/jwt";
 import { Borrowed, BorrowedSchema } from "../schemas/Borrowed.schema";
-import {AuthModule} from "../auth/auth.module";
 
 @Module({
   imports: [
@@ -16,9 +15,11 @@ import {AuthModule} from "../auth/auth.module";
       { name: User.name, schema: UserSchema },
       { name: Book.name, schema: BookSchema },
       { name: Borrowed.name, schema: BorrowedSchema },
-
-    ]),AuthModule
-
+    ]),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+      signOptions: { expiresIn: '1h' },
+    })
   ],
   controllers: [NotificationController],
   providers: [NotificationService],
