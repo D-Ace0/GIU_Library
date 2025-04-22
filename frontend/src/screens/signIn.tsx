@@ -1,109 +1,123 @@
-// frontend/src/screens/SignIn.tsx
-import React from "react";
-import { Button } from "../component/ui/button.tsx";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "../component/ui/navigation-menu.tsx";
+// src/screens/signIn.tsx
 
-export const SignIn = (): JSX.Element => {
-  const navItems = [
-    { name: "Books", active: true },
-    { name: "Contact", active: false },
-  ];
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import { Button } from "../component/ui/button";
+
+const SignIn: React.FC = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    try {
+      const res = await fetch("http://localhost:5000/auth/signin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+        credentials: "include",
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Login failed");
+
+      localStorage.setItem("token", data.accessToken);
+      // redirect to home or dashboard
+      router.push("/home");
+    } catch (err: any) {
+      setError(err.message);
+    }
+  };
 
   return (
-    <div className="bg-white">
-      <div className="relative max-w-[1200px] mx-auto">
-        {/* Header */}
-        <header className="flex items-center justify-between p-8 bg-white border-b border-[#d9d9d9]">
-          <img
-            className="h-[106px] object-cover"
-            alt="GIU Logo"
-            src="https://c.animaapp.com/m9mtpk9gsPKuRT/img/giu.png"
-          />
+    <div className="bg-neutral-900 min-h-screen flex flex-col">
+      {/* Header */}
+      <header className="bg-neutral-800 p-4 flex items-center justify-between">
+        <img
+          src="https://c.animaapp.com/m9mtpk9gsPKuRT/img/giu.png"
+          alt="GIU Logo"
+          className="h-12"
+        />
+        <nav className="flex gap-4">
+          <Button variant="ghost" className="text-white">
+            Books
+          </Button>
+          <Button variant="ghost" className="text-white">
+            Contact
+          </Button>
+          <Button
+            onClick={() => router.push("/")}
+            className="border border-red-600 text-red-600 hover:bg-red-700"
+          >
+            Sign In
+          </Button>
+          <Button
+            onClick={() => router.push("/register")}
+            className="border border-yellow-600 text-yellow-600 hover:bg-yellow-700"
+          >
+            Register
+          </Button>
+        </nav>
+      </header>
 
-          <NavigationMenu className="flex-1 flex justify-center">
-            <NavigationMenuList className="flex gap-4">
-              {navItems.map((item) => (
-                <NavigationMenuItem key={item.name}>
-                  <NavigationMenuLink
-                    className={`px-4 py-2 rounded-lg ${
-                      item.active ? "bg-neutral-100" : ""
-                    }`}
-                  >
-                    {item.name}
-                  </NavigationMenuLink>
-                </NavigationMenuItem>
-              ))}
-            </NavigationMenuList>
-          </NavigationMenu>
-
-          <div className="flex items-center gap-3">
-            <Button className="bg-colorsred text-white border border-[#ff3b30] rounded-lg hover:bg-colorsred/90">
-              Sign in
-            </Button>
-            <Button className="bg-colorsorange text-white border border-[#ff9500] rounded-lg hover:bg-colorsorange/90">
-              Register
-            </Button>
-          </div>
-        </header>
-
-        {/* Main content */}
-        <main className="flex flex-col items-center justify-center bg-neutral-100 py-20 px-6">
-          {/* Title */}
-          <h1 className="mb-6 text-4xl font-extrabold text-center">
-            <span className="text-black">G</span>
-            <span className="text-[#ff3b30]">I</span>
-            <span className="text-[#ff9500]">U</span>
-            <span className="text-[#1e1e1e]"> Library</span>
+      {/* Main */}
+      <main className="flex-grow flex items-center justify-center">
+        <div className="bg-neutral-800 p-6 rounded-lg shadow-lg w-full max-w-sm">
+          <h1 className="text-center text-4xl font-bold mb-6 text-white">
+            <span className="text-white">G</span>
+            <span className="text-red-600">I</span>
+            <span className="text-yellow-600">U</span>
+            <span className="text-white"> Library</span>
           </h1>
-
-          {/* Sign in card */}
-          <form className="w-full max-w-xs bg-white rounded-lg shadow-md p-6 space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {error && (
+              <p className="text-red-500 text-center">{error}</p>
+            )}
             <div>
               <label
                 htmlFor="username"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-white mb-1"
               >
                 Username
               </label>
               <input
                 id="username"
-                name="username"
                 type="text"
-                placeholder="Enter your username"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="w-full bg-neutral-700 text-white border border-neutral-600 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-600"
+                required
               />
             </div>
-
             <div>
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700 mb-1"
+                className="block text-sm font-medium text-white mb-1"
               >
                 Password
               </label>
               <input
                 id="password"
-                name="password"
                 type="password"
-                placeholder="Enter your password"
-                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full bg-neutral-700 text-white border border-neutral-600 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-600"
+                required
               />
             </div>
-
             <Button
               type="submit"
-              className="w-full bg-black text-white rounded-md py-2 hover:bg-gray-800"
+              className="w-full bg-black text-white py-2 rounded hover:bg-gray-800"
             >
               Sign In
             </Button>
           </form>
-        </main>
-      </div>
+        </div>
+      </main>
     </div>
   );
 };
+
+export default SignIn;

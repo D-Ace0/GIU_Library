@@ -1,17 +1,14 @@
-/** @type {import('tailwindcss').Config} */
+// frontend/tailwind.config.js
 module.exports = {
   content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    // Next.js pages
+    './src/pages/**/*.{js,ts,jsx,tsx}',
+    // Your screens/components
+    './src/screens/**/*.{js,ts,jsx,tsx}',
+    './src/component/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {},
   },
-  plugins: [],
-}
-// tailwind.config.js
-module.exports = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
-  theme: { /* … */ },
   plugins: [],
 }
