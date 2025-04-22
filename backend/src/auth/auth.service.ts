@@ -5,10 +5,7 @@ import { User } from 'src/schemas/user.schema';
 import mongoose, { Model } from 'mongoose';
 import { SignInDto } from './dto/signin.dto';
 import { JwtService } from '@nestjs/jwt';
-
-import { response } from 'express';
-import { Res } from '@nestjs/common';
-
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -17,8 +14,8 @@ export class AuthService {
 
 
     async signin(signInDto: SignInDto, response: Response) {
-        const { username, password } = signInDto;
-        const existingUser = await this.userModel.findOne({ username });
+        const { email, password } = signInDto;
+        const existingUser = await this.userModel.findOne({ email });
 
         if (!existingUser) {
             throw new BadRequestException('Invalid username or password');

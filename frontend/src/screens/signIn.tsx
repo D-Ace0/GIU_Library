@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { Button } from "../component/ui/button";
 
 const SignIn: React.FC = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -17,7 +17,7 @@ const SignIn: React.FC = () => {
       const res = await fetch("http://localhost:5000/auth/signin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ email, password }),
         credentials: "include",
       });
       const data = await res.json();
@@ -77,16 +77,16 @@ const SignIn: React.FC = () => {
             )}
             <div>
               <label
-                htmlFor="username"
+                htmlFor="email"
                 className="block text-sm font-medium text-white mb-1"
               >
-                Username
+                Email
               </label>
               <input
-                id="username"
+                id="email"
                 type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 className="w-full bg-neutral-700 text-white border border-neutral-600 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-600"
                 required
               />
