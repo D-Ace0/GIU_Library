@@ -21,9 +21,10 @@ const SignIn: React.FC = () => {
         credentials: "include",
       });
       const data = await res.json();
+      console.log(data.user);
       if (!res.ok) throw new Error(data.message || "Login failed");
 
-      localStorage.setItem("token", data.accessToken);
+      localStorage.setItem("token", data.user.token);
       // redirect to home or dashboard
       router.push("/home");
     } catch (err: any) {

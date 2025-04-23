@@ -6,7 +6,13 @@ import mongoose, { Model } from 'mongoose';
 import { SignInDto } from './dto/signin.dto';
 import { JwtService } from '@nestjs/jwt';
 import { Response } from 'express';
-
+import * as jwtDecode from 'jwt-decode';
+interface DecodedToken {
+    user_id: string;
+    role: string;
+    name: string;
+    major?: string; // optional in case it's not always present
+}
 @Injectable()
 export class AuthService {
     constructor(@InjectModel(User.name) private userModel: Model<User>, private jwtService: JwtService,) { }
@@ -72,5 +78,22 @@ export class AuthService {
         });
 
         return response.status(200).json({ message: 'Logout successful' });
+    }
+
+    async TokenTranslator(token: string) {
+
+        try {
+            const decoded = jwtDecode<DecodedToken>(token);
+
+            return {
+                _id: decoded.user_id,
+                username: decoded.name,
+                role: decoded.role,
+                major: decoded.major || null,
+            };
+        } catch (err) {
+            throw new BadRequestException('Invalid token');
+        }
+
     }
 }

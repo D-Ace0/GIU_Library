@@ -11,10 +11,10 @@ const HomePage: React.FC = () => {
   // assume session stored in localStorage
   const session = JSON.parse(
     typeof window !== "undefined"
-      ? localStorage.getItem("session") || "{}"
+      ? localStorage.getItem("token") || "{}"
       : "{}"
   );
-  const username = session.username || "User";
+  const username = ;
 
   const handleSignOut = () => {
     localStorage.removeItem("token");
@@ -34,6 +34,10 @@ const HomePage: React.FC = () => {
         <nav className="flex items-center gap-4">
           <Button variant="ghost">Books</Button>
           <Button variant="ghost">Contact</Button>
+          <Button variant="ghost" onClick={() => router.push("/account")}>
+            AccountInfo
+          </Button>
+
         </nav>
         <div className="flex items-center gap-4">
           <span className="text-gray-700">Hello, {username}</span>
