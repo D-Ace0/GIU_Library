@@ -1,14 +1,14 @@
 // frontend/src/components/Header.tsx
 import React from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import { Button } from "./ui/button.tsx";
+import { Button } from "./ui/button";
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
-} from "./ui/navigation-menu.tsx";
-import { SignIn } from "../screens/signIn.tsx";
+} from "./ui/navigation-menu";
+import { SignIn } from "../screens/signIn";
 
 export const Header: React.FC = () => {
   const navItems = [
