@@ -32,7 +32,9 @@ const HomePage: React.FC = () => {
           className="h-12"
         />
         <nav className="flex items-center gap-4">
-          <Button variant="ghost">Books</Button>
+          <Button variant="ghost" onClick={() => router.push("/book-search")}>
+              Books
+          </Button>
           <Button variant="ghost">Contact</Button>
         </nav>
         <div className="flex items-center gap-4">
