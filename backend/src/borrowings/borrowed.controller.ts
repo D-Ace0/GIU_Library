@@ -10,7 +10,7 @@ export class BorrowedController {
   constructor(private readonly borrowedService: BorrowedService) {}
 
   @Post('from-request/:requestId')
-  @UseGuards(AuthenticationGuard)
+  // @UseGuards(AuthenticationGuard)
 //   @Roles('admin')
   async createBorrowedFromRequest(
     @Param('requestId') requestId: string,
@@ -20,46 +20,46 @@ export class BorrowedController {
   }
 
   @Get()
-  @UseGuards(AuthenticationGuard)
+  // @UseGuards(AuthenticationGuard)
 //   @Roles('admin')
   async getAllBorrowed(): Promise<Borrowed[]> {
     return this.borrowedService.getAllBorrowed();
   }
 
   @Get('active')
-  @UseGuards(AuthenticationGuard)
+  // @UseGuards(AuthenticationGuard)
 //   @Roles('admin')
   async getActiveBorrowings(): Promise<Borrowed[]> {
     return this.borrowedService.getActiveBorrowings();
   }
 
   @Get('overdue')
-  @UseGuards(AuthenticationGuard)
+  // @UseGuards(AuthenticationGuard)
 //   @Roles('admin')
   async getOverdueBorrowings(): Promise<Borrowed[]> {
     return this.borrowedService.getOverdueBorrowings();
   }
 
   @Get('user/:userId')
-  @UseGuards(AuthenticationGuard)
+  // @UseGuards(AuthenticationGuard)
   async getUserBorrowings(@Param('userId') userId: string): Promise<Borrowed[]> {
     return this.borrowedService.getUserBorrowings(userId);
   }
 
   @Put('return/:id')
-  @UseGuards(AuthenticationGuard)
+  // @UseGuards(AuthenticationGuard)
   async returnBook(@Param('id') id: string): Promise<Borrowed> {
     return this.borrowedService.returnBook(id);
   }
 
   @Delete(':id')
-  @UseGuards(AuthenticationGuard)
+  // @UseGuards(AuthenticationGuard)
   async deleteBorrowed(@Param('id') id: string): Promise<Borrowed> {
     return this.borrowedService.deleteBorrowed(id);
   }
 
   @Get(':id')
-  @UseGuards(AuthenticationGuard)
+  // @UseGuards(AuthenticationGuard)
   async getBorrowedById(@Param('id') id: string): Promise<Borrowed> {
     return this.borrowedService.getBorrowedById(id);
   }

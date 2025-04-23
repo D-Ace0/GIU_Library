@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { Request, STATUS } from '../schemas/request.schema';
 import { Book } from '../schemas/book.schema';
 import { User } from '../schemas/user.schema';
+import { Borrowed } from 'src/schemas/Borrowed.schema';
 
 @Injectable()
 export class RequestService {
@@ -11,6 +12,7 @@ export class RequestService {
     @InjectModel(Request.name) private requestModel: Model<Request>,
     @InjectModel(Book.name) private bookModel: Model<Book>,
     @InjectModel(User.name) private userModel: Model<User>,
+    @InjectModel(Borrowed.name) private borrowedModel: Model<Borrowed>,
   ) {}
 
   async createRequest(userId: string, bookId: string): Promise<Request> {
@@ -72,22 +74,69 @@ export class RequestService {
       .exec();
   }
   
-  async approveRequest(requestId: string): Promise<Request> {
+  async approveRequest(requestId: string, returnDate: Date): Promise<Request> {
     const request = await this.requestModel.findById(requestId);
     if (!request) {
       throw new NotFoundException('Request not found');
     }
-    
+  
     if (request.status !== STATUS.PENDING) {
       throw new BadRequestException('Request is not in pending status');
     }
-    
-    // Update request status
-    request.status = STATUS.APPROVED;
-    request.resolvedAt = new Date();
-    
-    return request.save();
+  
+    const book = await this.bookModel.findById(request.bookId);
+    if (!book) {
+      throw new NotFoundException('Book not found');
+    }
+  
+    if (book.stock <= 0) {
+      throw new BadRequestException('Book is out of stock');
+    }
+  
+    const user = await this.userModel.findById(request.userId);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+  
+    const borrowedAt = new Date();
+  
+    // Create a Borrowed record manually
+    const borrowed = new this.borrowedModel({
+      bookId: book._id,
+      userId: user._id,
+      bookTitle: book.bookTitle,
+      borrowedAt,
+      returnDate,
+      returned: false,
+    });
+  
+    await borrowed.save();
+  
+    // Update book stock and info
+    book.stock -= 1;
+    if (book.stock === 0) book.isOutOfStock = true;
+    if (!book.borrowers) book.borrowers = [];
+    book.borrowers.push(borrowed._id);
+    if (!book.nearestReturnDate || returnDate < book.nearestReturnDate) {
+      book.nearestReturnDate = returnDate;
+    }
+    await book.save();
+  
+    // Update user's borrowedBooks
+    if (!user.borrowedBooks) user.borrowedBooks = [];
+    user.borrowedBooks.push(borrowed._id);
+    await user.save();
+  
+
+    const deletedRequest = await this.requestModel.findByIdAndDelete(requestId);
+    if (!deletedRequest) {
+      throw new NotFoundException('Failed to delete the approved request');
+    }
+  
+    return deletedRequest;
   }
+  
+  
   
   async deleteRequest(requestId: string): Promise<Request> {
     const deletedRequest = await this.requestModel.findByIdAndDelete(requestId);

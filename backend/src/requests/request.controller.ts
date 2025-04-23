@@ -10,7 +10,7 @@ export class RequestController {
   constructor(private readonly requestService: RequestService) {}
 
   @Post()
-  @UseGuards(AuthenticationGuard)
+  // @UseGuards(AuthenticationGuard)
   async createRequest(
     @Body() requestData: { userId: string; bookId: string },
   ): Promise<Request> {
@@ -18,40 +18,44 @@ export class RequestController {
   }
 
   @Get()
-  @UseGuards(AuthenticationGuard, AuthorizationGuard)
+  // @UseGuards(AuthenticationGuard, AuthorizationGuard)
   // @Roles('admin')
   async getAllRequests(): Promise<Request[]> {
     return this.requestService.getAllRequests();
   }
 
   @Get('pending')
-  @UseGuards(AuthenticationGuard, AuthorizationGuard)
+  // @UseGuards(AuthenticationGuard, AuthorizationGuard)
   // @Roles('admin')
   async getPendingRequests(): Promise<Request[]> {
     return this.requestService.getPendingRequests();
   }
 
   @Get('user/:userId')
-  @UseGuards(AuthenticationGuard)
+  // @UseGuards(AuthenticationGuard)
   async getRequestsByUser(@Param('userId') userId: string): Promise<Request[]> {
     return this.requestService.getRequestsByUser(userId);
   }
 
   @Put('approve/:id')
-  @UseGuards(AuthenticationGuard, AuthorizationGuard)
+  // @UseGuards(AuthenticationGuard, AuthorizationGuard)
   // @Roles('admin')
-  async approveRequest(@Param('id') id: string): Promise<Request> {
-    return this.requestService.approveRequest(id);
+  async approveRequest(
+    @Param('id') id: string,
+    @Body() body: { returnDate: Date }
+  ): Promise<Request> {
+    return this.requestService.approveRequest(id, body.returnDate);
   }
+  
 
   @Delete(':id')
-  @UseGuards(AuthenticationGuard)
+  // @UseGuards(AuthenticationGuard)
   async deleteRequest(@Param('id') id: string): Promise<Request> {
     return this.requestService.deleteRequest(id);
   }
 
   @Delete('book-title/:bookTitle')
-  @UseGuards(AuthenticationGuard, AuthorizationGuard)
+  // @UseGuards(AuthenticationGuard, AuthorizationGuard)
   // @Roles('admin')
   async deleteRequestByBookTitle(@Param('bookTitle') bookTitle: string): Promise<{ message: string }> {
     await this.requestService.deleteRequestByBookTitle(bookTitle);
@@ -59,7 +63,7 @@ export class RequestController {
   }
 
   @Get(':id')
-  @UseGuards(AuthenticationGuard)
+  // @UseGuards(AuthenticationGuard)
   async getRequestById(@Param('id') id: string): Promise<Request> {
     return this.requestService.getRequestById(id);
   }
