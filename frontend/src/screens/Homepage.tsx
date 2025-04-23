@@ -11,10 +11,10 @@ const HomePage: React.FC = () => {
   // assume session stored in localStorage
   const session = JSON.parse(
     typeof window !== "undefined"
-      ? localStorage.getItem("token") || "{}"
+       ? localStorage.getItem("session") || "{}"
       : "{}"
   );
-  const username = ;
+  const username = session.username || "User";
 
   const handleSignOut = () => {
     localStorage.removeItem("token");

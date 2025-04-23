@@ -29,9 +29,9 @@ export class AuthController {
     return result;
   }
 
-  @Get()
-  async findAll(@Body() token: string) {
-    const result=await this.authService.TokenTranslator(token)
-
-  }
+  // @Get()
+  // async findAll(@Body() token: string) {
+  //   const result=await this.authService.TokenTranslator(token)
+  //
+  // }
 }
