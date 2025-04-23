@@ -6,9 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="9a90cd53-2466-4914-9019-fe23fcff7365" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/app.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/book/book.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/book/book.controller.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/book/book.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/book/book.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/notification/dto/create-notification.dto.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/notification/dto/create-notification.dto.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/notification/notification.controller.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/notification/notification.controller.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/schemas/Borrowed.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/schemas/Borrowed.schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/notification/notification.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/notification/notification.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/notification/notification.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/notification/notification.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/schemas/book.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/schemas/book.schema.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/schemas/review.schema.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/schemas/review.schema.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +87,8 @@
       <workItem from="1744826436666" duration="1781000" />
       <workItem from="1744912011293" duration="1093000" />
       <workItem from="1744967029590" duration="1852000" />
-      <workItem from="1744974350745" duration="6809000" />
+      <workItem from="1744974350745" duration="2876000" />
+      <workItem from="1745341272594" duration="1015000" />
     </task>
     <servers />
   </component>

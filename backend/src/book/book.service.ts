@@ -10,7 +10,7 @@ import {User} from "../schemas/user.schema";
 @Injectable()
 export class BookService {
   constructor(@InjectModel(Book.name) private bookModel: Model<BookDocument>,
-    @InjectModel(User.name) private userModel: Model<User>,)
+              @InjectModel(User.name) private userModel: Model<User>,)
   {}
 
   async create(createBookDto: CreateBookDto) {
@@ -63,7 +63,7 @@ export class BookService {
     return await this.bookModel.find({author:author});
   }
 
- async Language(language: string) {
+  async Language(language: string) {
     return await this.bookModel.find({language:language});
   }
 
@@ -77,5 +77,38 @@ export class BookService {
 
   async Publisher (publisher: string) {
     return await this.bookModel.find({publisher:publisher});
+  }
+  async saveBook(userId: string, bookId: string) {
+    const user = await this.userModel.findById(userId);
+    if (!user) throw new Error('User not found');
+
+    if (user.savedBooks?.includes(bookId)) {
+      return { message: 'Book already saved' };
+    }
+
+    await this.userModel.findByIdAndUpdate(
+        userId,
+        { $push: { savedBooks: bookId } },
+        { new: true }
+    );
+
+    return { message: 'Book saved successfully' };
+  }
+
+  async unsaveBook(userId: string, bookId: string) {
+    const user = await this.userModel.findById(userId);
+    if (!user) throw new Error('User not found');
+
+    if (!user.savedBooks?.includes(bookId)) {
+      return { message: 'Book was not saved' };
+    }
+
+    await this.userModel.findByIdAndUpdate(
+        userId,
+        { $pull: { savedBooks: bookId } },
+        { new: true }
+    );
+
+    return { message: 'Book removed from saved list' };
   }
 }
