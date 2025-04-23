@@ -2,11 +2,6 @@ import { Trash2Icon, Loader2 } from "lucide-react";
 import React, { useEffect } from "react";
 import { Button } from "../component/ui/button";
 import { Card, CardContent, CardTitle } from "../component/ui/card";
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuList,
-} from "../component/ui/navigation-menu";
 import { useAuth, useUserReviews, useSavedBooks } from "../lib/hooks";
 import { useRouter } from "next/router";
 
@@ -42,61 +37,6 @@ export const AccountInfo = (): JSX.Element => {
 
   return (
     <div className="bg-neutral-100 min-h-screen">
-      {/* Header */}
-      <header className="flex items-center h-32 bg-white border-b border-[#d9d9d9]">
-        <div className="container mx-auto flex justify-between items-center">
-          <img
-            className="w-[349px] h-[106px] object-cover"
-            alt="GIU"
-            src="/giu.png"
-          />
-
-          <NavigationMenu className="flex-1 flex justify-center">
-            <NavigationMenuList className="flex gap-2">
-              <NavigationMenuItem>
-                <Button 
-                  variant="secondary" 
-                  className="rounded-lg"
-                  onClick={() => router.push('/books')}
-                >
-                  Books
-                </Button>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Button 
-                  variant="ghost" 
-                  className="rounded-lg"
-                  onClick={() => router.push('/about')}
-                >
-                  About us
-                </Button>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Button 
-                  variant="ghost" 
-                  className="rounded-lg"
-                  onClick={() => router.push('/team')}
-                >
-                  Our Team
-                </Button>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
-
-          <div className="flex items-center gap-4">
-            <img className="w-[26px] h-[23px]" alt="Bell" src="/bell.svg" />
-            <span className="font-single-line-body-base text-m-3syslightsecondary">
-              {user ? `Hello, ${user.username}` : "Hello, Guest"}
-            </span>
-            <img
-              className="w-[33px] h-8"
-              alt="Account circle"
-              src={user?.image_url || "/account-circle.svg"}
-            />
-          </div>
-        </div>
-      </header>
-
       <main className="container mx-auto py-8 space-y-12">
         {/* Profile Section */}
         <section className="flex gap-8">
