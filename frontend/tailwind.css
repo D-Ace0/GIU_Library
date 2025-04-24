@@ -4,3 +4,21 @@
 
 @layer components {
 }
+
+/* === Modal Animation Classes === */
+.modal-enter {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  
+  .modal-enter-active {
+    opacity: 1;
+    transform: scale(1);
+    transition: all 300ms ease;
+  }
+  
+  .modal-exit-active {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 300ms ease;
+  }  
