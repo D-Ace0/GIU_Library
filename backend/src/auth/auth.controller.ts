@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards,Get } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dto/signup.dto';
@@ -29,4 +29,9 @@ export class AuthController {
     return result;
   }
 
+  // @Get()
+  // async findAll(@Body() token: string) {
+  //   const result=await this.authService.TokenTranslator(token)
+  //
+  // }
 }
