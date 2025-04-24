@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Button } from "../component/ui/button";
+import { Button } from "../components/ui/button";
 import { Bell } from "lucide-react";
-
+import Header from "../components/Header";
+import { useAuth } from "../lib/hooks"; // Assuming you have a useAuth hook to get user info            
+import {jwtDecode} from "jwt-decode"; // Import jwtDecode for session handling
 const BookSearch: React.FC = () => {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,18 +18,23 @@ const BookSearch: React.FC = () => {
   const [modalClass, setModalClass] = useState("modal-enter");
 
   // Assume session stored in localStorage
-  const session = JSON.parse(
-    typeof window !== "undefined"
-      ? localStorage.getItem("session") || "{}"
-      : "{}"
-  );
-  const username = session.username || "User";
+  
+  
+    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    let session: any = {};
+  
+    try {
+      session = token ? jwtDecode(token) : {};
+      console.log("session", session);
+      console.log("token", token);
+    } catch (error) {
+      console.error("Invalid token", error);
+    }
+  
+    const username = session?.name || "User";
+    const role = session?.role || "user";
 
-  const handleSignOut = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("session");
-    router.push("/");
-  };
+    console.log("username", session);
 
   // Fetch all books on component mount
   useEffect(() => {
@@ -103,35 +110,15 @@ const BookSearch: React.FC = () => {
       setModalClass("modal-enter"); // reset class for next time
     }, 300); // match the transition duration
   };  
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    router.push("/");
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
       {/* Header */}
-      <header className="bg-white p-4 flex items-center justify-between shadow">
-        <img
-          src="https://c.animaapp.com/m9mtpk9gsPKuRT/img/giu.png"
-          alt="GIU Logo"
-          className="h-12"
-        />
-        <nav className="flex items-center gap-4">
-          <Button variant="ghost" onClick={() => router.push("/book-search")}>
-            Books
-          </Button>
-          <Button variant="ghost">Contact</Button>
-        </nav>
-        <div className="flex items-center gap-4">
-          <span className="text-gray-700">Hello, {username}</span>
-          <Button variant="ghost">
-            <Bell className="w-5 h-5 text-gray-600" />
-          </Button>
-          <Button
-            onClick={handleSignOut}
-            className="bg-red-500 text-white hover:bg-red-600"
-          >
-            Sign Out
-          </Button>
-        </div>
-      </header>
+      <Header username={username} role={role} handleSignOut={handleSignOut} />
 
       {/* Main Content */}
       <main className="flex-grow p-8 flex flex-col items-center justify-center">

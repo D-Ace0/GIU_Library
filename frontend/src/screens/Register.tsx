@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { Button } from "../component/ui/button";
+import { Button } from "../components/ui/button";
 
 const Register: React.FC = () => {
   const router = useRouter();

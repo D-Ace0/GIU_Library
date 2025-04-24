@@ -22,7 +22,7 @@ const Header: React.FC<HeaderProps> = ({ username, role, handleSignOut }) => {
         style={{ cursor: "pointer" }}
       />
       <nav className="flex items-center gap-4">
-        <Button variant="ghost" onClick={() => router.push("/books")}>
+        <Button variant="ghost" onClick={() => router.push("/book-search")}>
           Books
         </Button>
         <Button variant="ghost" onClick={() => router.push("/contact")}>
@@ -31,6 +31,7 @@ const Header: React.FC<HeaderProps> = ({ username, role, handleSignOut }) => {
         <Button variant="ghost" onClick={() => router.push("/account")}>
           AccountInfo
         </Button>
+        
         {role === "admin" && (
           <>
             <Button variant="ghost" onClick={() => router.push("/books-panel")}>
