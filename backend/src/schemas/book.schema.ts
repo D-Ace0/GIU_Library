@@ -2,9 +2,7 @@ import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import { User } from "./user.schema";
 import mongoose, {Document, Mongoose} from "mongoose";
 import {Borrowed} from "./Borrowed.schema";
-import {Review} from "./review.schema";
-
-
+import { Review } from "./review.schema";
 
 export type BookDocument = Book & Document
 
@@ -22,7 +20,8 @@ export class Book {
   @Prop() location: string;
   @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Borrowed',required:false }) borrowers: any[];
   @Prop({required:false}) isOutOfStock: boolean;
-  @Prop({required:false}) nearestReturnDate?: Date;
+  @Prop({ type: Date, required: false, default: null })
+  nearestReturnDate?: Date | null;
   @Prop({ type: [mongoose.Schema.Types.ObjectId], ref: 'Review',required:false }) recentReviews: any[];
 
 }

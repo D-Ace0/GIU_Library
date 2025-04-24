@@ -6,8 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './users/users.module';
 import { BookModule } from './book/book.module';
 import { NotificationModule } from './notification/notification.module';
-import { ReviewsModule } from './reviews/reviews.module';
-
+import { RequestModule } from './requests/request.module';
 @Module({
   providers: [{
     provide: APP_GUARD,
@@ -18,7 +17,7 @@ import { ReviewsModule } from './reviews/reviews.module';
     UsersModule,
     BookModule,
     NotificationModule,
-    ReviewsModule,
+    RequestModule,
   ],
 })
 export class AppModule {}
