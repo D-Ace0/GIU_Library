@@ -1,7 +1,7 @@
 import { Trash2Icon, Loader2 } from "lucide-react";
 import React, { useEffect } from "react";
-import { Button } from "../component/ui/button";
-import { Card, CardContent, CardTitle } from "../component/ui/card";
+import { Button } from "../components/ui/button";
+import { Card, CardContent, CardTitle } from "../components/ui/card";
 import { useAuth, useUserReviews, useSavedBooks } from "../lib/hooks";
 import { useRouter } from "next/router";
 

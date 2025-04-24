@@ -6,9 +6,16 @@
   <component name="ChangeListManager">
     <list default="true" id="9a90cd53-2466-4914-9019-fe23fcff7365" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/component/Header.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/component/ui/avatar.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/component/ui/button.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/component/ui/card.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/component/ui/navigation-menu.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/component/ui/seperator.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/account.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/account.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/screens/AccountInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/screens/AccountInfo.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/screens/Homepage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/screens/Homepage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/screens/signIn.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/screens/signIn.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
