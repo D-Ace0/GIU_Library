@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react"; 
 import { useRouter } from "next/router"; 
-import { Button } from "./ui/button"; 
+import { Button } from "./button"; 
 import { Bell, X } from "lucide-react";
 
 interface HeaderProps {
@@ -37,7 +37,7 @@ const Header: React.FC<HeaderProps> = ({
         setNotificationsOpen(false);
       }
     }
-
+    
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
