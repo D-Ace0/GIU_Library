@@ -1,11 +1,12 @@
-import React, { useState, useRef, useEffect } from "react"; 
-import { useRouter } from "next/router"; 
-import { Button } from "./ui/button"; 
+import React, { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/router";
+import { Button } from "./ui/button";
 import { Bell, X } from "lucide-react";
 
 interface HeaderProps {
   username: string;
   role: string;
+  userId: string;
   handleSignOut: () => void;
   notifications?: Notification[]; // Optional array of notifications
 }
@@ -13,22 +14,55 @@ interface HeaderProps {
 // Define a type for notifications
 interface Notification {
   id: string;
-  message: string;
+  from: string;
+  body: string;
   date: string;
   read: boolean;
 }
 
-const Header: React.FC<HeaderProps> = ({ 
-  username, 
-  role, 
+const Header: React.FC<HeaderProps> = ({
+  username,
+  role,
+  userId,
   handleSignOut,
   notifications = [] // Default to empty array if not provided
 }) => {
   const router = useRouter();
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [fetchedNotifications, setFetchedNotifications] = useState<Notification[]>([]);
   const notificationRef = useRef<HTMLDivElement>(null);
-  
-  const unreadCount = notifications.filter(n => !n.read).length;
+
+  const unreadCount = fetchedNotifications.filter(n => !n.read).length;
+
+  // Fetch notifications when the dropdown is opened
+  const fetchNotifications = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/notifications/${userId}`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
+      if (!response.ok) {
+        console.error(`Error fetching notifications: ${response.status} ${response.statusText}`);
+        return;
+      }
+
+      const data = await response.json();
+
+      // Ensure the response is an array
+      if (Array.isArray(data)) {
+        setFetchedNotifications(data);
+      } else {
+        console.error("Unexpected response format:", data);
+        setFetchedNotifications([]);
+      }
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+      setFetchedNotifications([]);
+    }
+  };
 
   // Close notifications when clicking outside
   useEffect(() => {
@@ -63,7 +97,7 @@ const Header: React.FC<HeaderProps> = ({
         <Button variant="ghost" onClick={() => router.push("/account")}>
           AccountInfo
         </Button>
-        
+
         {role === "admin" && (
           <>
             <Button variant="ghost" onClick={() => router.push("/books-panel")}>
@@ -81,9 +115,14 @@ const Header: React.FC<HeaderProps> = ({
       <div className="flex items-center gap-4">
         <span className="text-gray-700">Hello, {username}</span>
         <div className="relative">
-          <Button 
-            variant="ghost" 
-            onClick={() => setNotificationsOpen(!notificationsOpen)}
+          <Button
+            variant="ghost"
+            onClick={async () => {
+              setNotificationsOpen(!notificationsOpen);
+              if (!notificationsOpen) {
+                await fetchNotifications();
+              }
+            }}
             className="relative"
           >
             <Bell className="w-5 h-5 text-gray-600" />
@@ -93,16 +132,16 @@ const Header: React.FC<HeaderProps> = ({
               </span>
             )}
           </Button>
-          
+
           {/* Notifications Dropdown */}
           {notificationsOpen && (
-            <div 
+            <div
               ref={notificationRef}
               className="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg z-50 border border-gray-200"
             >
               <div className="flex items-center justify-between p-3 border-b border-gray-200">
                 <h3 className="font-medium">Notifications</h3>
-                <button 
+                <button
                   onClick={() => setNotificationsOpen(false)}
                   className="text-gray-500 hover:text-gray-700"
                 >
@@ -110,15 +149,15 @@ const Header: React.FC<HeaderProps> = ({
                 </button>
               </div>
               <div className="max-h-96 overflow-y-auto">
-                {notifications.length > 0 ? (
+                {fetchedNotifications.length > 0 ? (
                   <ul className="divide-y divide-gray-100">
-                    {notifications.map((notification) => (
-                      <li 
-                        key={notification.id} 
+                    {fetchedNotifications.map((notification) => (
+                      <li
+                        key={notification.id}
                         className={`p-3 ${notification.read ? 'bg-white' : 'bg-blue-50'}`}
                       >
-                        <p className="text-sm">{notification.message}</p>
-                        <p className="text-xs text-gray-500 mt-1">{notification.date}</p>
+                        <p className="text-sm font-bold">From: {notification.from}</p>
+                        <p className="text-sm">{notification.body}</p>
                       </li>
                     ))}
                   </ul>

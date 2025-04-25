@@ -33,6 +33,7 @@ const BookSearch: React.FC = () => {
   
     const username = session?.name || "User";
     const role = session?.role || "user";
+    const userId = session?.user_id || "userId";
 
     console.log("username", session);
 
@@ -118,7 +119,7 @@ const BookSearch: React.FC = () => {
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
       {/* Header */}
-      <Header username={username} role={role} handleSignOut={handleSignOut} />
+      <Header username={username} role={role} handleSignOut={handleSignOut}userId={userId} />
 
       {/* Main Content */}
       <main className="flex-grow p-8 flex flex-col items-center justify-center">

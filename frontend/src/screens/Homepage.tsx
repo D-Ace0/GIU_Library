@@ -19,6 +19,8 @@ const HomePage: React.FC = () => {
 
   const username = session?.name || "User";
   const role = session?.role || "user";
+  const userId = session?.user_id || "userId";
+  console.log("myid", userId);
 
   const handleSignOut = () => {
     localStorage.removeItem("token");
@@ -27,7 +29,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
-      <Header username={username} role={role} handleSignOut={handleSignOut} />
+      <Header username={username} role={role} handleSignOut={handleSignOut} userId={userId}/>
       <main className="flex-grow p-8 text-center">
         <h1 className="text-5xl font-extrabold text-gray-900 mb-4">
           <span className="text-black">G</span>
