@@ -111,4 +111,10 @@ export class BookService {
 
     return { message: 'Book removed from saved list' };
   }
+  async sortAZ() {
+    return await this.bookModel.find().sort({bookTitle:1});
+  }
+  async sortZA() {
+    return await this.bookModel.find().sort({bookTitle:-1});
+  }
 }

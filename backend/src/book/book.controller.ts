@@ -97,5 +97,16 @@ export class BookController {
     ) {
         return this.bookService.unsaveBook(userId, bookId);
     }
+    @Get('Sorting/A-Z')
+    @Roles(['admin', 'user'])
+    async sortAZ() {
+        return this.bookService.sortAZ();
+    }
+    @Get('Sorting/Z-A')
+    @Roles(['admin', 'user'])
+    async sortZA() {
+        return this.bookService.sortZA();
+    }
+    
 }
 
