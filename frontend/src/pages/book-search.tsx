@@ -20,16 +20,25 @@ const BookSearch: React.FC = () => {
   // Assume session stored in localStorage
   
   
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-    let session: any = {};
-  
-    try {
-      session = token ? jwtDecode(token) : {};
-      console.log("session", session);
-      console.log("token", token);
-    } catch (error) {
-      console.error("Invalid token", error);
-    }
+   const [session, setSession] = useState<any>({});
+    const [token, setToken] = useState<string | null>(null);
+   
+     useEffect(() => {
+       // Access localStorage only on the client
+       const storedToken = localStorage.getItem("token");
+       setToken(storedToken);
+   
+       if (storedToken) {
+         try {
+           const decodedSession = jwtDecode(storedToken);
+           setSession(decodedSession);
+           console.log("session", decodedSession);
+           console.log("token", storedToken);
+         } catch (error) {
+           console.error("Invalid token", error);
+         }
+       }
+     }, []);
   
     const username = session?.name || "User";
     const role = session?.role || "user";

@@ -87,17 +87,15 @@ const Header: React.FC<HeaderProps> = ({
         onClick={() => router.push("/")}
         style={{ cursor: "pointer" }}
       />
+      
       <nav className="flex items-center gap-4">
-        <Button variant="ghost" onClick={() => router.push("/book-search")}>
-          Books
-        </Button>
-        <Button variant="ghost" onClick={() => router.push("/contact")}>
-          Contact
-        </Button>
-        <Button variant="ghost" onClick={() => router.push("/account")}>
-          AccountInfo
-        </Button>
-
+        {role === "user" && (
+          <>
+            <Button variant="ghost" onClick={() => router.push("/book-search")}>Books</Button>
+            <Button variant="ghost" onClick={() => router.push("/contact")}>Contact</Button>
+            <Button variant="ghost" onClick={() => router.push("/account")}>AccountInfo</Button>
+          </>
+        )}
         {role === "admin" && (
           <>
             <Button variant="ghost" onClick={() => router.push("/books-panel")}>

@@ -1,21 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { jwtDecode } from "jwt-decode";
 import Header from "../components/Header";
 
 const HomePage: React.FC = () => {
   const router = useRouter();
+  const [session, setSession] = useState<any>({});
+  const [token, setToken] = useState<string | null>(null);
 
-  const token = typeof window !== "undefined" ? localStorage.getItem("token") : null;
-  let session: any = {};
+  useEffect(() => {
+    // Access localStorage only on the client
+    const storedToken = localStorage.getItem("token");
+    setToken(storedToken);
 
-  try {
-    session = token ? jwtDecode(token) : {};
-    console.log("session", session);
-    console.log("token", token);
-  } catch (error) {
-    console.error("Invalid token", error);
-  }
+    if (storedToken) {
+      try {
+        const decodedSession = jwtDecode(storedToken);
+        setSession(decodedSession);
+        console.log("session", decodedSession);
+        console.log("token", storedToken);
+      } catch (error) {
+        console.error("Invalid token", error);
+      }
+    }
+  }, []);
 
   const username = session?.name || "User";
   const role = session?.role || "user";
@@ -29,7 +37,7 @@ const HomePage: React.FC = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
-      <Header username={username} role={role} handleSignOut={handleSignOut} userId={userId}/>
+      <Header username={username} role={role} handleSignOut={handleSignOut} userId={userId} />
       <main className="flex-grow p-8 text-center">
         <h1 className="text-5xl font-extrabold text-gray-900 mb-4">
           <span className="text-black">G</span>
