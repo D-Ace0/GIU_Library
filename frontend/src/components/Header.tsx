@@ -87,7 +87,7 @@ const Header: React.FC<HeaderProps> = ({
         onClick={() => router.push("/")}
         style={{ cursor: "pointer" }}
       />
-      
+
       <nav className="flex items-center gap-4">
         {role === "user" && (
           <>
