@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
+import { get } from "http";
 
-const API_URL = 'http://localhost:5000';
+const API_URL = "http://localhost:5000";
 
 // Create axios instance with credentials
 const api = axios.create({
@@ -10,7 +11,7 @@ const api = axios.create({
 
 // Add token to all requests
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -30,6 +31,17 @@ export const userService = {
   // Update user profile
   updateProfile: async (userId: string, data: any) => {
     const response = await api.patch(`/users/${userId}`, data);
+    return response.data;
+  },
+  getBorrowedBooks: async (userId: string) => {
+    const response = await api.get(`/users/${userId}/borrowed-books`);
+    return response.data;
+  },
+  //update image
+  updateImage: async (userId: string, imageUrl: string) => {
+    const response = await api.patch(`/users/${userId}/image`, {
+      image_url: imageUrl,
+    });
     return response.data;
   },
 };
@@ -59,13 +71,18 @@ export const reviewService = {
 export const bookService = {
   // Get all books
   getAllBooks: async () => {
-    const response = await api.get('/book');
+    const response = await api.get("/book");
     return response.data;
   },
 
   // Get book by title
   getBookByTitle: async (title: string) => {
     const response = await api.get(`/book/${title}`);
+    return response.data;
+  },
+  //get book by id
+  getBookById: async (id: string) => {
+    const response = await api.get(`/book/${id}`);
     return response.data;
   },
 
@@ -87,20 +104,39 @@ export const bookService = {
     return response.data;
   },
 };
+// Borrowing related API calls
+export const borrowingService = {
+  // Borrow a book
+  borrowBook: async (userId: string, bookId: string) => {
+    const response = await api.post(`/borrowed/${userId}/borrow/${bookId}`);
+    return response.data;
+  },
+
+  // Return a book
+  returnBook: async (borrowingId: string) => {
+    const response = await api.put(`/borrowed/return/${borrowingId}`);
+    return response.data;
+  },
+  // New method
+  getBorrowedByUserId: async (userId: string) => {
+    const response = await api.get(`/borrowed/user/${userId}`);
+    return response.data;
+  },
+};
 
 // Helper function to decode JWT and get userId
 export const getUserIdFromToken = (): string | null => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   if (!token) return null;
-  
+
   try {
     // Decode JWT token (base64)
-    const payload = JSON.parse(atob(token.split('.')[1]));
+    const payload = JSON.parse(atob(token.split(".")[1]));
     return payload.user_id;
   } catch (error) {
-    console.error('Failed to decode token:', error);
+    console.error("Failed to decode token:", error);
     return null;
   }
 };
 
-export default api; 
+export default api;
