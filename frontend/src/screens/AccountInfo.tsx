@@ -36,7 +36,7 @@ export const AccountInfo = (): JSX.Element => {
     updateImage,
     isLoading: isImageLoading,
     error: imageError,
-  } = useUpdateUserImage(userId, newImageUrl);
+  } = useUpdateUserImage();
 
   useEffect(() => {
     if (!isUserLoading && !isAuthenticated) {
