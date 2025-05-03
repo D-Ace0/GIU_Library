@@ -24,7 +24,7 @@ const BookSearch: React.FC = () => {
   const [availableOptions, setAvailableOptions] = useState<string[]>([]);
   const [selectedValue, setSelectedValue] = useState("");
   const [requestedBookIds, setRequestedBookIds] = useState<string[]>([]);
-  const [bookReviews, setBookReviews] = useState<any[]>([])
+  const [bookReviews, setBookReviews] = useState<any[]>([]);
   const totalRatings = bookReviews.reduce((sum, r) => sum + (r.rating || 0), 0);
   const averageRating = bookReviews.length > 0 ? (totalRatings / bookReviews.length).toFixed(1) : "Not rated yet";
   const [showUpdateModal, setShowUpdateModal] = useState(false);
@@ -514,8 +514,26 @@ const BookSearch: React.FC = () => {
             <p className="mt-2">{selectedBook.stock}</p>
           </div>  
       </div>
+      <div className="mt-10 w-full max-h-60 overflow-y-auto border rounded-lg p-4 bg-white shadow-inner">
+  <h3 className="text-2xl font-bold text-black mb-4">User Reviews</h3>
+  {bookReviews.length > 0 ? (
+    <div className="space-y-4">
+      {bookReviews.map((review, index) => (
+        <div key={index} className="border rounded p-3 bg-gray-100">
+          <p className="font-bold text-black">{review.Username}</p>
+          <p className="text-gray-800 italic">Comment: {review.reviewText}</p>
+          <p className="text-yellow-600">Rating: {review.rating}</p>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p className="text-gray-600">No reviews yet for this book.</p>
+  )}
+</div>
+
       </div>
     </div>
+    
   )}
 
 {showUpdateModal && (
@@ -991,6 +1009,24 @@ const BookSearch: React.FC = () => {
           <p className="mt-2">{selectedBook.stock}</p>
         </div>
       </div>
+        
+        {/* Reviews Section */}
+      <div className="mt-10 w-full max-h-60 overflow-y-auto border rounded-lg p-4 bg-white shadow-inner">
+  <h3 className="text-2xl font-bold text-black mb-4">User Reviews</h3>
+  {bookReviews.length > 0 ? (
+    <div className="space-y-4">
+      {bookReviews.map((review, index) => (
+        <div key={index} className="border rounded p-3 bg-gray-100">
+          <p className="font-bold text-black">{review.Username}</p>
+          <p className="text-gray-800 italic">{review.reviewText}</p>
+          <p className="text-yellow-600">Rating: {review.rating}</p>
+        </div>
+      ))}
+    </div>
+  ) : (
+    <p className="text-gray-600">No reviews yet for this book.</p>
+  )}
+</div>
 
       {/* Review Section */}
       <div className="flex flex-col items-center mt-10">
