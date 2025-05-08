@@ -34,6 +34,9 @@ const BorrowingsPage: React.FC = () => {
   const [allBorrowings, setAllBorrowings] = useState<Borrowing[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [warningText, setWarningText] = useState("");
+  const [selectedBorrowing, setSelectedBorrowing] = useState<Borrowing | null>(null);
   const router = useRouter();
   const { userId, username, role, handleSignOut } = useAuth();
 
@@ -113,6 +116,60 @@ const BorrowingsPage: React.FC = () => {
     }
   };
 
+  // Handle issuing a warning
+  const handleIssueWarning = (borrowing: Borrowing) => {
+    setSelectedBorrowing(borrowing);
+    setIsPopupOpen(true);
+  };
+
+  const handleSendWarning = async () => {
+    if (!selectedBorrowing) return;
+
+    try {
+      const token = localStorage.getItem("token"); // Retrieve the token from localStorage
+      if (!token) {
+        toast.error("Authentication token is missing. Please log in again.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
+        return;
+      }
+
+      await axios.post(
+        "http://localhost:5000/notifications",
+        {
+          from: username,
+          body: warningText,
+          borrowId: selectedBorrowing._id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
+        }
+      );
+
+      toast.success(`Warning sent to ${selectedBorrowing.userId?.name || "user"}`, {
+        position: "top-right",
+        autoClose: 3000,
+      });
+
+      setIsPopupOpen(false);
+      setWarningText("");
+    } catch (error) {
+      console.error("Error sending warning:", error);
+      toast.error("Failed to send warning", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+    }
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setWarningText("");
+  };
+
   // Format date for display
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -129,6 +186,8 @@ const BorrowingsPage: React.FC = () => {
 
   // Render borrowing card
   const renderBorrowingCard = (borrowing: Borrowing) => {
+    const showIssueWarning = isOverdue(borrowing.returnDate) && !borrowing.returned;
+
     return (
       <div 
         key={borrowing._id} 
@@ -166,21 +225,32 @@ const BorrowingsPage: React.FC = () => {
               )}
             </div>
           </div>
-          
-          {!borrowing.returned && (
-            <Button 
-              onClick={() => handleReturnBook(borrowing._id)}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
-            >
-              Mark as Returned
-            </Button>
-          )}
-          
-          {borrowing.returned && (
-            <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
-              Returned
-            </span>
-          )}
+
+          <div className="flex flex-col items-end gap-2">
+            {!borrowing.returned && (
+              <Button 
+                onClick={() => handleReturnBook(borrowing._id)}
+                className="bg-blue-600 hover:bg-blue-700 text-white"
+              >
+                Mark as Returned
+              </Button>
+            )}
+
+            {showIssueWarning && (
+              <Button 
+                onClick={() => handleIssueWarning(borrowing)}
+                className="bg-yellow-500 hover:bg-yellow-600 text-white"
+              >
+                Issue Warning
+              </Button>
+            )}
+
+            {borrowing.returned && (
+              <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm">
+                Returned
+              </span>
+            )}
+          </div>
         </div>
       </div>
     );
@@ -255,8 +325,38 @@ const BorrowingsPage: React.FC = () => {
           </Tabs>
         )}
       </div>
+
+      {/* Warning Popup */}
+      {isPopupOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-4 rounded shadow-lg">
+            <h2 className="text-lg font-bold mb-2">Issue Warning</h2>
+            <textarea
+              className="w-full p-2 border rounded"
+              rows={4}
+              value={warningText}
+              onChange={(e) => setWarningText(e.target.value)}
+              placeholder="Type your warning message here..."
+            />
+            <div className="flex justify-end mt-4">
+              <Button
+                className="bg-gray-300 text-black px-4 py-2 rounded mr-2"
+                onClick={handleClosePopup}
+              >
+                Cancel
+              </Button>
+              <Button
+                className="bg-blue-500 text-white px-4 py-2 rounded"
+                onClick={handleSendWarning}
+              >
+                Send
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default BorrowingsPage; 
+export default BorrowingsPage;

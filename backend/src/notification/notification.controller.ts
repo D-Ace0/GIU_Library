@@ -1,4 +1,4 @@
-import {Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards} from '@nestjs/common';
+import {Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards, Req} from '@nestjs/common';
 import { NotificationService } from './notification.service';
 import { CreateNotificationDto } from './dto/create-notification.dto';
 import {AuthenticationGuard} from "../guards/authentication.guard";
@@ -13,7 +13,11 @@ export class NotificationController {
 
   @Post()
   @Roles(['admin'])
-  create(@Body() createNotificationDto: CreateNotificationDto) {
+  async create(@Body() createNotificationDto: CreateNotificationDto, @Req() req: any) {
+    // Extract 'username' from the decoded session
+    const decodedSession = req.user; // Assuming 'req.user' contains the decoded session
+    createNotificationDto.from = decodedSession.username; // Adjust based on your session structure
+
     return this.notificationService.create(createNotificationDto);
   }
 
