@@ -5,10 +5,10 @@ import {
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Borrowed, STATUS } from '../schemas/Borrowed.schema';
+import { Borrowed, STATUS as BorrowedSTATUS } from '../schemas/Borrowed.schema';
 import { Book } from '../schemas/book.schema';
 import { User } from '../schemas/user.schema';
-import { Request } from '../schemas/request.schema';
+import { Request, STATUS as RequestSTATUS } from '../schemas/request.schema';
 
 @Injectable()
 export class BorrowedService {
@@ -29,10 +29,6 @@ export class BorrowedService {
       throw new NotFoundException('Request not found');
     }
 
-    if (request.status !== 'approved') {
-      throw new BadRequestException('Request is not approved');
-    }
-
     // Check if the book is available
     const book = await this.bookModel.findById(request.bookId);
     if (!book) {
@@ -47,6 +43,14 @@ export class BorrowedService {
     const user = await this.userModel.findById(request.userId);
     if (!user) {
       throw new NotFoundException('User not found');
+    }
+
+    // Update request status to approved if it was pending
+    if (request.status === RequestSTATUS.PENDING) {
+      request.status = RequestSTATUS.APPROVED;
+      await request.save();
+    } else if (request.status !== RequestSTATUS.APPROVED) {
+      throw new BadRequestException(`Request status is ${request.status}, not pending or approved`);
     }
 
     // Calculate return date
