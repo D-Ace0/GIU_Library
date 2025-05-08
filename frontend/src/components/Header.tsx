@@ -221,7 +221,7 @@ const Header: React.FC<HeaderProps> = ({
         {role === "user" && (
           <>
             <Button variant="ghost" onClick={() => router.push("/book-search")}>Books</Button>
-            <Button variant="ghost" onClick={() => router.push("/contact")}>Contact</Button>
+            
             <Button variant="ghost" onClick={() => router.push("/account")}>AccountInfo</Button>
           </>
         )}
