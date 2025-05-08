@@ -1,13 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable ,OnModuleInit} from '@nestjs/common';
 import { CreateNotificationDto } from './dto/create-notification.dto';
-import { InjectModel } from '@nestjs/mongoose';
+import { InjectModel, } from '@nestjs/mongoose';
 import { Notification } from '../schemas/notification.schema';
 import { Model } from 'mongoose';
 import { Borrowed } from 'src/schemas/Borrowed.schema';
 import { User } from 'src/schemas/user.schema';
+import * as cron from 'node-cron';
 
 @Injectable()
-export class NotificationService {
+export class NotificationService implements OnModuleInit {
   constructor(
       @InjectModel(Notification.name)
       private notificationModel: Model<Notification>,
@@ -16,6 +17,28 @@ export class NotificationService {
       @InjectModel(User.name)
       private userModel: Model<User>,
   ) {}
+  onModuleInit() {
+  // Run immediately on server start
+  console.log('Running systemNotification at server startup...');
+  this.systemNotification()
+    .then((notifications) => {
+      console.log('System notifications sent on startup:', notifications);
+    })
+    .catch((error) => {
+      console.error('Error running systemNotification on startup:', error);
+    });
+
+  // Schedule to run daily at midnight
+  cron.schedule('0 0 * * *', async () => {
+    console.log('Running systemNotification via cron...');
+    try {
+      const notifications = await this.systemNotification();
+      console.log('System notifications sent successfully:', notifications);
+    } catch (error) {
+      console.error('Error running systemNotification via cron:', error);
+    }
+  });
+}
 
   async create(createNotificationDto: CreateNotificationDto) {
     const { borrowId, body, from } = createNotificationDto;

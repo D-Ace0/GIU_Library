@@ -7,7 +7,7 @@ import { useAuth } from "../lib/auth";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../components/ui/tabs";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+ import {jwtDecode} from "jwt-decode";
 // Define typing for borrowing records
 interface Borrowing {
   _id: string;
@@ -39,12 +39,33 @@ const BorrowingsPage: React.FC = () => {
   const [selectedBorrowing, setSelectedBorrowing] = useState<Borrowing | null>(null);
   const router = useRouter();
   const { userId, username, role, handleSignOut } = useAuth();
+  const [session, setSession] = useState<any>({});
+  const [token, setToken] = useState<string | null>(null);
+ 
+
 
   // Redirect if not admin
   useEffect(() => {
     if (role !== "admin") {
       router.push("/");
     }
+        const storedToken = localStorage.getItem("token");
+       setToken(storedToken);
+
+       if (storedToken) {
+         try {
+           const decodedSession = jwtDecode(storedToken);
+           setSession(decodedSession);
+           console.log("session in borrowed", decodedSession);
+           console.log("token", storedToken);
+           
+           const username = session.name;
+           console.log("username", username);
+         } catch (error) {
+           console.error("Invalid token", error);
+         }
+       }
+
   }, [role, router]);
 
   // Fetch borrowings data
@@ -134,6 +155,11 @@ const BorrowingsPage: React.FC = () => {
         });
         return;
       }
+      console.log("Sending notification data:", {
+  from: username,
+  body: warningText,
+  borrowId: selectedBorrowing._id,
+});
 
       await axios.post(
         "http://localhost:5000/notifications",

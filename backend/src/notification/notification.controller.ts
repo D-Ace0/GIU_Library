@@ -13,11 +13,8 @@ export class NotificationController {
 
   @Post()
   @Roles(['admin'])
-  async create(@Body() createNotificationDto: CreateNotificationDto, @Req() req: any) {
-    // Extract 'username' from the decoded session
-    const decodedSession = req.user; // Assuming 'req.user' contains the decoded session
-    createNotificationDto.from = decodedSession.username; // Adjust based on your session structure
-
+  async create(@Body() createNotificationDto: CreateNotificationDto) {
+   
     return this.notificationService.create(createNotificationDto);
   }
 
@@ -25,6 +22,7 @@ export class NotificationController {
   @Post("System")
   @Roles(['admin'])
   async systemNotification() {
+    
     return this.notificationService.systemNotification();
   }
 
