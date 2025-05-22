@@ -108,11 +108,11 @@ const RequestsPage: React.FC = () => {
   const { userId, username, role, handleSignOut } = useAuth();
 
   // Redirect if not admin
-  useEffect(() => {
-    if (role !== "admin") {
-      router.push("/");
-    }
-  }, [role, router]);
+  // useEffect(() => {
+  //   if (role !== "admin") {
+  //     router.push("/");
+  //   }
+  // }, [role, router]);
 
   // Fetch requests data
   useEffect(() => {
