@@ -20,7 +20,7 @@ describe('Book Request with Auto Login', () => {
     cy.visit('http://localhost:3001/book-search');
 
     // Wait for the book to be rendered
-    cy.contains('Dragon book', { timeout: 10000 }).click();
+    cy.contains('Atomic Habits', { timeout: 10000 }).click();
 
     // Ensure modal is visible
     cy.contains('Book Summary').should('be.visible');

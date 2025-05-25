@@ -148,55 +148,52 @@ export const useBorrowedBooks = (userId: string | null) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    console.log("Running useBorrowedBooks useEffect, userId:", userId);
     const fetchBorrowedBooks = async () => {
       if (!userId) {
-        console.log("No userId, skipping fetchBorrowedBooks");
+        setBooks([]);
         return;
       }
 
       try {
         setIsLoading(true);
-        console.log("Fetching borrowed books for userId:", userId);
-        const borrowedRecords = await borrowingService.getBorrowedByUserId(
-          userId
-        );
-        console.log("Fetched borrowed records:", borrowedRecords);
+        setError(null);
+        const borrowedRecords = await borrowingService.getBorrowedByUserId(userId);
+
+        if (!borrowedRecords || !Array.isArray(borrowedRecords)) {
+          setBooks([]);
+          return;
+        }
+
         // Map the records to the format expected by AccountInfo
-        const formattedBooks = borrowedRecords.map((record: any) => ({
-          _id: record.bookId._id,
-          bookTitle: record.bookId.bookTitle,
-          author: record.bookId.author,
-          summary: record.bookId.summary,
-          publisher: record.bookId.publisher,
-          image_url: record.bookId.image_url || "",
-          borrowedAt: record.borrowedAt,
-          returnDate: record.returnDate,
-          returned: record.returned,
-          returnedAt: record.returnedAt,
-        }));
-        console.log("Formatted books:", formattedBooks);
+        // with null checks for each property
+        const formattedBooks = borrowedRecords
+          .filter((record) => record && record.bookId) // Filter out any null records
+          .map((record) => ({
+            _id: record.bookId?._id ?? '',
+            bookTitle: record.bookId?.bookTitle ?? 'Unknown Title',
+            author: record.bookId?.author ?? 'Unknown Author',
+            summary: record.bookId?.summary ?? '',
+            publisher: record.bookId?.publisher ?? '',
+            image_url: record.bookId?.image_url ?? '',
+            borrowedAt: record.borrowedAt ?? null,
+            returnDate: record.returnDate ?? null,
+            returned: record.returned ?? false,
+            returnedAt: record.returnedAt ?? null,
+          }));
+
         setBooks(formattedBooks);
       } catch (err: any) {
-        console.error(
-          "Error fetching borrowed books:",
-          err.response?.status,
-          err.response?.data,
-          err.message
-        );
-        setError(err.message || "Failed to fetch borrowed books");
+        const errorMessage = err.message || "Failed to fetch borrowed books";
+        console.error("Error fetching borrowed books:", errorMessage);
+        setError(errorMessage);
+        setBooks([]);
       } finally {
-        console.log("Finished fetching borrowed books, isLoading:", false);
         setIsLoading(false);
       }
     };
 
     fetchBorrowedBooks();
   }, [userId]);
-
-  useEffect(() => {
-    console.log("books state updated:", books);
-  }, [books]);
 
   return { books, isLoading, error };
 };

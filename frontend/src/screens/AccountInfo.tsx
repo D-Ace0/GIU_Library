@@ -216,13 +216,21 @@ export const AccountInfo = (): JSX.Element => {
         <section>
           <h2 className="font-title-page text-black mb-6">Borrowed History:</h2>
           <div className="bg-white rounded-[20px] p-8 shadow-md border border-gray-200">
-            {isBorrowedBooksLoading ? (
-              <div className="flex justify-center">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            {borrowedBooksError && (
+              <div className="text-red-500 p-4 rounded bg-red-50 mb-4">
+                Error loading borrowed books: {borrowedBooksError}
               </div>
-            ) : borrowedBooksError ? (
-              <p className="text-center text-red-500">{borrowedBooksError}</p>
-            ) : borrowedBooks && borrowedBooks.length > 0 ? (
+            )}
+            {isBorrowedBooksLoading ? (
+              <div className="flex items-center justify-center p-8">
+                <Loader2 className="h-6 w-6 animate-spin text-primary" />
+                <span className="ml-2">Loading borrowed books...</span>
+              </div>
+            ) : borrowedBooks.length === 0 ? (
+              <div className="text-gray-500 text-center p-4">
+                No books currently borrowed
+              </div>
+            ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {borrowedBooks.map((book) => (
                   <Card
@@ -254,10 +262,6 @@ export const AccountInfo = (): JSX.Element => {
                   </Card>
                 ))}
               </div>
-            ) : (
-              <p className="text-center text-gray-500">
-                No borrowed books yet.
-              </p>
             )}
           </div>
         </section>
